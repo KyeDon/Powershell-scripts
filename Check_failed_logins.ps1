@@ -10,7 +10,7 @@ Github - https://github.com/KyeDon
 ##Main variables
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 #Get date/time 5 minutes ago
-[datetime]$date = (get-date).addminutes(-5)
+[datetime]$date = (get-date).addminutes(-5) #Change -5 for a different interval.
 
 #Enable auditing on failure in local computer policy
 $CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
