@@ -36,7 +36,7 @@ if ($count.count -ge 1) {
     echo "3 or more failures sending email..."
     $EmailTo = "Example@Example.co.uk"
     $EmailFrom = "smtpconnect@Example.co.uk"
-    $EmailPW = "password1" 
+    $EmailPW = "password1"
     $Subject = "Failed logins on $hostname!!"
     $Body = ""
     $SMTPServer = "smtp.office365.com"
@@ -59,6 +59,6 @@ if ($count.count -ge 1) {
     $SMTPClient.Send($SMTPMessage)
 }
 else {
-	echo "$counted failed attempts were found. Exiting"
+    echo "$counted failed attempts were found. Exiting"
     exit
 }
