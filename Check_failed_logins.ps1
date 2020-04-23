@@ -15,7 +15,7 @@ $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 #Enable auditing on failure in local computer policy
 $CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
 if( -not $CurrentAudit.Contains("Failure")){
-	auditpol /set /subcategory:"Logon" /failure:enable
+    auditpol /set /subcategory:"Logon" /failure:enable
 }
 
 #Instanceid references the event ID in event viewer. 4625 is a failed login.
