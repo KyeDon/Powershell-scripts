@@ -33,15 +33,15 @@ while ($i -lt $counted)
 
 
 if ($count.count -ge 1) {
-	echo "3 or more failures sending email..."
-	$EmailTo = "Example@Example.co.uk" 
-    $EmailFrom = "smtpconnect@Example.co.uk" 
-    $EmailPW = "password1" 
-    $Subject = "Failed logins on $hostname!!" 
-    $Body = "" 
-    $SMTPServer = "smtp.office365.com"  
-    $SMTPPort = 587 
-    $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body) 
+		echo "3 or more failures sending email..."
+		$EmailTo = "Example@Example.co.uk"
+    $EmailFrom = "smtpconnect@Example.co.uk"
+    $EmailPW = "password1"
+    $Subject = "Failed logins on $hostname!!"
+    $Body = ""
+    $SMTPServer = "smtp.office365.com"
+    $SMTPPort = 587
+    $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
     $SMTPMessage.Body = "Failed logins in last 5 minutes on $hostname - `n"
     $number = 0
     foreach ( $obj in $table)
@@ -53,10 +53,10 @@ if ($count.count -ge 1) {
         }
     }
     $SMTPMessage.Body += "`n Navigate to security tab in event viewer for full details."
-    $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)  
-    $SMTPClient.EnableSsl = $true 
-    $SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);  
-    $SMTPClient.Send($SMTPMessage) 
+    $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
+    $SMTPClient.EnableSsl = $true
+    $SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);
+    $SMTPClient.Send($SMTPMessage)
 }
 else {
 	echo "$counted failed attempts were found. Exiting"
