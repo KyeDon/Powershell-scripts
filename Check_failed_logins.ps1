@@ -13,6 +13,7 @@ Github - https://github.com/KyeDon
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 #Get date/time 5 minutes ago
 [datetime]$date = (get-date).addminutes(-5) #Change -5 for a different interval.
+$ge = 1 #Change this to the desired threshold for the amount of failures that trigger an alert.
 
 #Enable auditing on failure in local computer policy
 $CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
