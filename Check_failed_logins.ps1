@@ -1,5 +1,5 @@
 <#
-Check for failed logins in past 5 minutes and send an email if more than 3.
+Check for failed logins in past 5 minutes and send an email if more than $ge.
 This script will enable auditing for login failures if it is disabled.
 This means that the first time it runs it may not find anything even if -
 there were failed logins previously.
@@ -15,7 +15,7 @@ $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 [datetime]$date = (get-date).addminutes(-5) #Change -5 for a different interval.
 $ge = 1 #Change this to the desired threshold for the amount of failures that trigger an alert.
 
-#Enable auditing on failure in local computer policy
+#Enable auditing on login failure in local computer policy
 $CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
 if( -not $CurrentAudit.Contains("Failure")){
     auditpol /set /subcategory:"Logon" /failure:enable
