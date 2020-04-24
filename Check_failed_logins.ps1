@@ -35,8 +35,8 @@ while ($i -lt $counted)
 }
 
 
-if ($count.count -ge 1) {
-    echo "3 or more failures sending email..."
+if ($count.count -ge $ge) {
+    echo "$ge or more failures sending email..."
     $EmailTo = "Example@Example.co.uk"
     $EmailFrom = "smtpconnect@Example.co.uk"
     $EmailPW = "password1"
