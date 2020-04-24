@@ -37,12 +37,12 @@ while ($i -lt $counted)
 
 if ($count.count -ge $ge) {
     echo "$ge or more failures sending email..."
-    $EmailTo = "Example@Example.co.uk"
-    $EmailFrom = "smtpconnect@Example.co.uk"
-    $EmailPW = "password1"
+    $EmailTo = "Example@Example.co.uk" #Change this
+    $EmailFrom = "smtpconnect@Example.co.uk" #Change this
+    $EmailPW = "password1" #Change this
     $Subject = "Failed logins on $hostname!!"
     $Body = ""
-    $SMTPServer = "smtp.office365.com"
+    $SMTPServer = "smtp.office365.com" #May need to change this
     $SMTPPort = 587
     $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
     $SMTPMessage.Body = "Failed logins in last 5 minutes on $hostname - `n"
