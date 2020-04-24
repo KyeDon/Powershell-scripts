@@ -3,7 +3,7 @@ Check for failed logins in past 5 minutes and send an email if more than $ge.
 This script will enable auditing for login failures if it is disabled.
 This means that the first time it runs it may not find anything even if -
 there were failed logins previously.
-This script was intended to be paired with a task scheduler task to run
+This script is intended to be paired with a task scheduler task to run
 inline with the $date variable. Full documentation can be found on my Github.
 Written by Kye Donaldson for Cyberdan Ltd 22/04/2020
 Github - https://github.com/KyeDon
