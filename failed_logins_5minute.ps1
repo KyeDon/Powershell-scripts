@@ -9,11 +9,18 @@ Written by Kye Donaldson for Cyberdan Ltd 22/04/2020
 Github - https://github.com/KyeDon
 #>
 
-##Main variables
+##Main variables - These are the only variables that may need changing
+$EmailTo = "Example@Example.co.uk" #Change this
+$EmailFrom = "smtpconnect@Example.co.uk" #Change this
+$EmailPW = "password1" #Change this
+$SMTPServer = "smtp.office365.com" #May need to change this
+$SMTPPort = 587 #May need to change this
+
+#Changing these variables is optional
 $ge = 1 #Change this to the desired threshold for the amount of failures that trigger an alert.
+[datetime]$date = (get-date).addminutes(-5) #Change -5 for a different interval. #Get date/time 5 minutes ago
+
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
-#Get date/time 5 minutes ago
-[datetime]$date = (get-date).addminutes(-5) #Change -5 for a different interval.
 
 #Enable auditing on login failure in local computer policy
 $CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
@@ -37,13 +44,8 @@ while ($i -lt $counted)
 
 if ($count.count -ge $ge) {
     echo "$ge or more failures sending email..."
-    $EmailTo = "Example@Example.co.uk" #Change this
-    $EmailFrom = "smtpconnect@Example.co.uk" #Change this
-    $EmailPW = "password1" #Change this
     $Subject = "Failed logins on $hostname!!"
     $Body = ""
-    $SMTPServer = "smtp.office365.com" #May need to change this
-    $SMTPPort = 587
     $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
     $SMTPMessage.Body = "Failed logins in last 5 minutes on $hostname - `n"
     $number = 0
