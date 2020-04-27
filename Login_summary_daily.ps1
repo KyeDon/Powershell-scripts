@@ -21,3 +21,14 @@ $SMTPPort = 587 #May need to change this
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 
 #Enable auditing on login in local computer policy
+$CurrentAudit = (auditpol /get /subcategory:"Logon")[4]
+if( -not $CurrentAudit.Contains("Failure") -and -not $CurrentAudit.contains("Success")) {
+    auditpol /set /subcategory:"Logon" /failure:enable
+    auditpol /set /subcategory:"Logon" /success:enable
+}
+
+#Get event viewer events 4624=success 4625=failure
+$Success = get-eventlog -logname security -instanceid 4624 -after $date
+$Failure = get-eventlog -logname security -instanceid 4625 -after $date
+$S_count = ($Success | measure).count
+$F_count = ($failure | measure).count
