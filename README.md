@@ -10,3 +10,4 @@ When setting up the action select start a program and type "powershell". The arg
 
 ## Daily audit report
 #### Sends out an email daily showing failed logins and successful logins in the past 24 hours.
+This is still a WIP and by no means finished. I need to write some regex and figure out how to filter system logins.
