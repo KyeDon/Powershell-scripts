@@ -32,3 +32,44 @@ $Success = get-eventlog -logname security -instanceid 4624 -after $date
 $Failure = get-eventlog -logname security -instanceid 4625 -after $date
 $S_count = ($Success | measure).count
 $F_count = ($failure | measure).count
+$S_minus = $S_count -1 #Used for accessing array later
+$F_minus = $F_count -1 #Used for accessing array later
+
+#Success loop
+$i = 0
+while ($i -lt $S_count)
+{
+    [array]$S_table += $Success[$i] | Format-Table -AutoSize | Out-String
+    $i += 1
+}
+
+#Failure loop
+$i = 0
+while ($i -lt $F_count)
+{
+    [array]$F_table += $Success[$i] | Format-Table -AutoSize | Out-String
+    $i += 1
+}
+
+##Send out email report
+$Subject = "Daily audit report on $hostname"
+$Body = ""
+$SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
+$SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
+
+#Write success body
+$S_number = 0
+foreach ( $obj in $S_table)
+{
+    if ($number -le $S_minus) {
+        $SMTPMessage.Body += "Successful logins in past 24 hours `n"
+        $SMTPMessage.Body += $S_table[$number]
+        $SMTPMessage.Body += ($success[$S_number].Message -split '\n')[18]
+        $number += 1
+    }
+}
+$SMTPMessage.Body += "`n Navigate to security tab in event viewer for full details."
+$SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
+$SMTPClient.EnableSsl = $true
+$SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);
+$SMTPClient.Send($SMTPMessage)
