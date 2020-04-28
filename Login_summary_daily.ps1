@@ -47,7 +47,7 @@ while ($i -lt $S_count)
 $i = 0
 while ($i -lt $F_count)
 {
-    [array]$F_table += $Success[$i] | Format-Table -AutoSize | Out-String
+    [array]$F_table += $Failure[$i] | Format-Table -AutoSize | Out-String
     $i += 1
 }
 
@@ -57,17 +57,30 @@ $Body = ""
 $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
 $SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
 
-#Write success body
-$S_number = 0
-foreach ( $obj in $S_table)
+#Write failure body
+$SMTPMessage.Body += "Failed logins in past 24 hours `n"
+$F_number = 0
+foreach ( $F_obj in $F_table)
 {
-    if ($number -le $S_minus) {
-        $SMTPMessage.Body += "Successful logins in past 24 hours `n"
-        $SMTPMessage.Body += $S_table[$number]
-        $SMTPMessage.Body += ($success[$S_number].Message -split '\n')[18]
-        $number += 1
+    if ($F_number -le $F_minus) {
+        $SMTPMessage.Body += $F_table[$F_number]
+        $SMTPMessage.Body += ($failure[$F_number].Message -split '\n')[12]
+        $F_number += 1
     }
 }
+
+#Write success body
+$SMTPMessage.Body += "Successful logins in past 24 hours `n"
+$S_number = 0
+foreach ( $S_obj in $S_table)
+{
+    if ($S_number -le $S_minus) {
+        $SMTPMessage.Body += $S_table[$S_number]
+        $SMTPMessage.Body += ($success[$S_number].Message -split '\n')[18]
+        $S_number += 1
+    }
+}
+
 $SMTPMessage.Body += "`n Navigate to security tab in event viewer for full details."
 $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
 $SMTPClient.EnableSsl = $true
