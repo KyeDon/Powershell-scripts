@@ -53,6 +53,16 @@ $Query = @"
 
 $Filtered = Get-WinEvent -FilterXml $Query
 $Success = $filtered | Where-Object { $_.timecreated -gt $Date }
+$S_count = ($Success | measure).count
+$S_minus = $S_count -1 #Used for accessing array later
+
+#Success loop
+$i = 0
+while ($i -lt $S_count)
+{
+    [array]$S_table += $Success[$i] | Format-Table -AutoSize | Out-String
+    $i += 1
+}
 
 ##Send out email report
 $Subject = "Daily audit report on $hostname"
@@ -74,13 +84,13 @@ foreach ( $F_obj in $F_table)
 
 #Write success body
 $SMTPMessage.Body += "Successful logins in past 24 hours `n"
-$S_number = 0
+$i = 0
 foreach ( $S_obj in $S_table)
 {
-    if ($S_number -le $S_minus) {
-        $SMTPMessage.Body += $S_table[$S_number]
-        $SMTPMessage.Body += ($success[$S_number].Message -split '\n')[18]
-        $S_number += 1
+    if ($Si -le $S_minus) {
+        $SMTPMessage.Body += $S_table[$i]
+        $SMTPMessage.Body += ($success[$i].Message -split '\n')[18]
+        $i += 1
     }
 }
 
