@@ -72,6 +72,7 @@ $SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
 
 #Write failure body
 $SMTPMessage.Body += "Failed logins in past 24 hours `n"
+if (!$failure) { $SMTPMessage.Body += "There are no failed logins `n" }
 $F_number = 0
 foreach ( $F_obj in $F_table)
 {
@@ -91,7 +92,7 @@ foreach ( $S_obj in $S_table)
         $SMTPMessage.Body += $S_table[$i]
         $SMTPMessage.Body += $success[$i].properties[5].value
         $type = $success[$i].properties[8].value
-        $SMTPMessage.Body += "Logon type is $type"
+        $SMTPMessage.Body += " Logon type is $type"
         $i += 1
     }
 }
