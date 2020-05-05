@@ -90,6 +90,8 @@ foreach ( $S_obj in $S_table)
     if ($Si -le $S_minus) {
         $SMTPMessage.Body += $S_table[$i]
         $SMTPMessage.Body += $success[$i].properties[5].value
+        $type = $success[$i].properties[8].value
+        $SMTPMessage.Body += "Logon type is $type"
         $i += 1
     }
 }
@@ -99,18 +101,3 @@ $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
 $SMTPClient.EnableSsl = $true
 $SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);
 $SMTPClient.Send($SMTPMessage)
-
-
-
-
-$Success = get-eventlog -logname security -instanceid 4624 -after $date
-$S_count = ($Success | measure).count
-$S_minus = $S_count -1 #Used for accessing array later
-
-#Success loop
-$i = 0
-while ($i -lt $S_count)
-{
-    [array]$S_table += $Success[$i] | Format-Table -AutoSize | Out-String
-    $i += 1
-}
