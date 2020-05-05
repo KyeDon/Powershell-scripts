@@ -89,7 +89,7 @@ foreach ( $S_obj in $S_table)
 {
     if ($Si -le $S_minus) {
         $SMTPMessage.Body += $S_table[$i]
-        $SMTPMessage.Body += ($success[$i].Message -split '\n')[18]
+        $SMTPMessage.Body += $success[$i].properties[5].value
         $i += 1
     }
 }
