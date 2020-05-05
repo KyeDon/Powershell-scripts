@@ -97,7 +97,7 @@ foreach ( $S_obj in $S_table)
     }
 }
 
-$SMTPMessage.Body += "`n Navigate to security tab in event viewer for full details."
+$SMTPMessage.Body += "`n`nNavigate to security tab in event viewer for full details."
 $SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
 $SMTPClient.EnableSsl = $true
 $SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);
