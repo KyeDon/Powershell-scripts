@@ -84,7 +84,7 @@ foreach ( $F_obj in $F_table)
 }
 
 #Write success body
-$SMTPMessage.Body += "Successful logins in past 24 hours `n"
+$SMTPMessage.Body += "`n Successful logins in past 24 hours `n"
 $i = 0
 foreach ( $S_obj in $S_table)
 {
