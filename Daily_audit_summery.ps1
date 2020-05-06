@@ -1,3 +1,5 @@
+[datetime]$Date = (get-date).AddDays(-1)
+
 $Query = @"
 <QueryList>
   <Query Id="0" Path="Security">
@@ -14,9 +16,7 @@ $S_minus = $S_count -1 #Used for accessing array later
 foreach ( $S_obj in $success)
 {
     if ($Si -le $S_minus) {
-        $SMTPMessage.Body += $success[$i].properties[5].value
-        $type = $success[$i].properties[8].value
-        $SMTPMessage.Body += " Logon type is $type"
+        [array]$username += $success[$i].properties[5].value
         $i += 1
     }
 }
