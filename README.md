@@ -10,4 +10,7 @@ When setting up the action select start a program and type "powershell". The arg
 
 ## Daily audit report
 #### Sends out an email daily showing failed logins and successful logins in the past 24 hours.
+There are 2 scripts here, one gives a full daily report of successful/failed logins in the same style as<br/>
+the 5 minute failed logins. The other gives a small summery of successful/failed logins in the from of<br/>
+<user>:Successful logins <number> Failed logins <number>
 This is now fully functional however I need to finish up the documentation (its pretty simple though)
