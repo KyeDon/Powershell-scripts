@@ -15,7 +15,7 @@ $S_minus = $S_count -1 #Used for accessing array later
 
 foreach ( $S_obj in $success)
 {
-    if ($Si -le $S_minus) {
+    if ($i -le $S_minus) {
         [array]$username += $success[$i].properties[5].value
         $i += 1
     }
