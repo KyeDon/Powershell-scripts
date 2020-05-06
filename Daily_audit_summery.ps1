@@ -20,6 +20,7 @@ $SMTPPort = 587 #May need to change this
 [datetime]$Date = (get-date).AddDays(-1) #Change -1 for a different interval.
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 
+##Success
 $Query = @"
 <QueryList>
   <Query Id="0" Path="Security">
@@ -33,21 +34,35 @@ $Success = $filtered | Where-Object { $_.timecreated -gt $Date }
 $S_count = ($Success | measure).count
 $S_minus = $S_count -1 #Used for accessing array later
 
+#Success loop
 $i = 0
 foreach ($S_obj in $success)
 {
     if ($i -le $S_minus) {
-        [array]$username += $success[$i].properties[5].value
+        [array]$S_username += $success[$i].properties[5].value
         $i += 1
     }
 }
-$grouped = $username | Group-Object -NoElement | out-string
+$S_grouped = $S_username | Group-Object -NoElement | out-string
+
+##Failures
+$Failure = get-eventlog -logname security -instanceid 4625 -after $Date
+$F_count = ($failure | measure).count
+$F_minus = $F_count -1 #Used for accessing array later
+
+#Failure loop
+$i = 0
+while ($i -lt $F_count)
+{
+    [array]$F_table += $Failure[$i] | Format-Table -AutoSize | Out-String
+    $i += 1
+}
 
 ##Send out email report
 $Subject = "Daily audit summery on $hostname"
 $Body = ""
 $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
-$SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
+$SMTPMessage.Body = "Daily login audit on $hostname - `n"
 
 #Write success body
 $SMTPMessage.Body += "`nNumber of successful logins in past 24 hours`n"
