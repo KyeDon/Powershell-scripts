@@ -41,5 +41,14 @@ foreach ($S_obj in $success)
         $i += 1
     }
 }
-
 $grouped = $username | Group-Object -NoElement
+
+##Send out email report
+$Subject = "Daily audit summery on $hostname"
+$Body = ""
+$SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
+$SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
+
+#Write success body
+$SMTPMessage.Body += "`nNumber of successful logins in past 24 hours`n"
+$SMTPMessage.Body += $grouped
