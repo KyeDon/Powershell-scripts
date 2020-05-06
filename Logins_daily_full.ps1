@@ -88,7 +88,7 @@ $SMTPMessage.Body += "`n Successful logins in past 24 hours `n"
 $i = 0
 foreach ( $S_obj in $S_table)
 {
-    if ($Si -le $S_minus) {
+    if ($i -le $S_minus) {
         $SMTPMessage.Body += $S_table[$i]
         $SMTPMessage.Body += $success[$i].properties[5].value
         $type = $success[$i].properties[8].value
