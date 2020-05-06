@@ -41,7 +41,7 @@ foreach ($S_obj in $success)
         $i += 1
     }
 }
-$grouped = $username | Group-Object -NoElement
+$grouped = $username | Group-Object -NoElement | out-string
 
 ##Send out email report
 $Subject = "Daily audit summery on $hostname"
