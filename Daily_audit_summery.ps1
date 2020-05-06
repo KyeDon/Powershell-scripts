@@ -52,3 +52,10 @@ $SMTPMessage.Body = "Daily login audit for past day on $hostname - `n"
 #Write success body
 $SMTPMessage.Body += "`nNumber of successful logins in past 24 hours`n"
 $SMTPMessage.Body += $grouped
+
+#Send out
+$SMTPMessage.Body += "`n`nNavigate to security tab in event viewer for full details."
+$SMTPClient = New-Object Net.Mail.SmtpClient($SMTPServer, $SMTPPort)
+$SMTPClient.EnableSsl = $true
+$SMTPClient.Credentials = New-Object System.Net.NetworkCredential($EmailFrom, $EmailPW);
+$SMTPClient.Send($SMTPMessage)
