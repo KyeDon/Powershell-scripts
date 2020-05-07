@@ -55,18 +55,23 @@ $i = 0
 foreach ( $obj in $Failure)
 {
     if ($i -le $F_minus) {
-        $F_username += ($Failure[$i].Message -split '\n')[12]
+        $F_username += ($Failure[$i].Message -split '\n')[12] -replace '\s','' #replaces spaces with nothing.
         $i += 1
     }
 }
-
 $F_grouped = $F_username | Group-Object -NoElement | Out-String
+
 
 ##Send out email report
 $Subject = "Daily audit summery on $hostname"
 $Body = ""
 $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
 $SMTPMessage.Body = "Daily login audit on $hostname - `n"
+
+#Write failure body
+$SMTPMessage.Body += "Failed logins in past 24 hours `n"
+if (!$failure) { $SMTPMessage.Body += "There are no failed logins `n" }
+$SMTPMessage.Body += $F_grouped
 
 #Write success body
 $SMTPMessage.Body += "`nNumber of successful logins in past 24 hours`n"
