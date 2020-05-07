@@ -5,7 +5,7 @@ This means that the first time it runs it may not find anything even if
 there were logins previously.
 This script is intended to be paired with a task scheduler task to run
 inline with the $date variable. Full documentation can be found on my Github.
-Written by Kye Donaldson for Cyberdan Ltd 26/04/2020
+Written by Kye Donaldson for Cyberdan Ltd 06/05/2020
 Github - https://github.com/KyeDon
 #>
 
