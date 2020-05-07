@@ -52,11 +52,14 @@ $F_minus = $F_count -1 #Used for accessing array later
 
 #Failure loop
 $i = 0
-while ($i -lt $F_count)
+foreach ( $obj in $Failure)
 {
-    [array]$F_username += $Failure[$i].properties[5].value
-    $i += 1
+    if ($i -le $F_minus) {
+        $F_username += ($Failure[$i].Message -split '\n')[12]
+        $i += 1
+    }
 }
+
 $F_grouped = $F_username | Group-Object -NoElement | Out-String
 
 ##Send out email report
