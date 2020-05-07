@@ -43,10 +43,10 @@ foreach ($S_obj in $success)
         $i += 1
     }
 }
-$S_grouped = $S_username | Group-Object -NoElement | out-string
+$S_grouped = $S_username | Group-Object -NoElement | Out-String
 
 ##Failures
-$Failure = get-eventlog -logname security -instanceid 4625 -after $Date
+[array]$Failure = get-eventlog -logname security -instanceid 4625 -after $Date
 $F_count = ($failure | measure).count
 $F_minus = $F_count -1 #Used for accessing array later
 
@@ -54,9 +54,10 @@ $F_minus = $F_count -1 #Used for accessing array later
 $i = 0
 while ($i -lt $F_count)
 {
-    [array]$F_table += $Failure[$i] | Format-Table -AutoSize | Out-String
+    [array]$F_username += $Failure[$i].properties[5].value
     $i += 1
 }
+$F_grouped = $F_username | Group-Object -NoElement | Out-String
 
 ##Send out email report
 $Subject = "Daily audit summery on $hostname"
@@ -66,7 +67,7 @@ $SMTPMessage.Body = "Daily login audit on $hostname - `n"
 
 #Write success body
 $SMTPMessage.Body += "`nNumber of successful logins in past 24 hours`n"
-$SMTPMessage.Body += $grouped
+$SMTPMessage.Body += $S_grouped
 
 #Send out
 $SMTPMessage.Body += "`n`nNavigate to security tab in event viewer for full details."
