@@ -55,7 +55,7 @@ $i = 0
 foreach ( $obj in $Failure)
 {
     if ($i -le $F_minus) {
-        $F_username += ($Failure[$i].Message -split '\n')[12] -replace '\s','' #replaces spaces with nothing.
+        [array]$F_username += ($Failure[$i].Message -split '\n')[12] -replace '\s','' #replaces spaces with nothing.
         $i += 1
     }
 }
