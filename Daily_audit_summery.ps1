@@ -3,6 +3,7 @@ Audit successful/failed logins in last day and send out a small breakdown email.
 This script will enable auditing for login success/failures if they are disabled.
 This means that the first time it runs it may not find anything even if
 there were logins previously.
+This script doesn't have any AD integration, and the changing of local policys won't work if the computer is on a domain.
 This script is intended to be paired with a task scheduler task to run
 inline with the $date variable. Full documentation can be found on my Github.
 Written by Kye Donaldson for Cyberdan Ltd 06/05/2020
@@ -21,10 +22,14 @@ $SMTPPort = 587 #May need to change this
 $hostname = [System.Net.Dns]::GetHostByName($env:computerName).HostName
 
 ##Success
+#Filters out Kerberos as it seems to generate 1000's of logins on domain environments.
+#This query will also pull back multiple of the same login but logged as multiple different events.
+#Typically 5 logins per 1 user = 1 actual login. This behaviour can be changed by filtering out
+#specific login types however this may cause inconsistencys.
 $Query = @"
 <QueryList>
   <Query Id="0" Path="Security">
-    <Select Path="Security">*[System[(EventID=4624)] and EventData[Data[@Name='TargetDomainName']!='Font Driver Host'] and EventData[Data[@Name='TargetDomainName']!='Window Manager'] and EventData[Data[@Name='TargetDomainName']!='NT AUTHORITY']]</Select>
+    <Select Path="Security">*[System[(EventID=4624)] and EventData[Data[@Name='LogonProcessName']!='Kerberos'] and EventData[Data[@Name='TargetDomainName']!='Font Driver Host'] and EventData[Data[@Name='TargetDomainName']!='Window Manager'] and EventData[Data[@Name='TargetDomainName']!='NT AUTHORITY']]</Select>
   </Query>
 </QueryList>
 "@
