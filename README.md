@@ -6,7 +6,7 @@ This should be paired with a task scheduler task that runs the script per the sa
 At the top of the script are variables that need modifying, these must be changed for the script to work.
 ![image](https://user-images.githubusercontent.com/47357003/80148793-78c16c80-85ad-11ea-984d-82396497b96c.png) <br/>
 The threshold for the amount of failures that trigger an alert can be changed by modifying the $ge variable. <br/>
-When setting up the action select start a program and type "powershell". The arguments should be "-executionpolicy bypass -windowstyle hidden C:\PathToFile\failed_logins_5minute.ps1"
+When setting up the action select start a program and type "powershell". The arguments should be "-NoProfile -executionpolicy bypass -windowstyle hidden C:\PathToFile\failed_logins_5minute.ps1"
 
 ## Daily audit report
 #### Sends out an email daily showing failed logins and successful logins in the past 24 hours.
