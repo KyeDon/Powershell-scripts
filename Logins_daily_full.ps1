@@ -30,7 +30,7 @@ if( -not $CurrentAudit.Contains("Failure") -and -not $CurrentAudit.contains("Suc
 ##Failures
 #Get event viewer events 4625=failure
 $Failure = get-eventlog -logname security -instanceid 4625 -after $Date
-$F_count = ($failure | measure).count
+$F_count = ($failure | Measure-Object).count
 $F_minus = $F_count -1 #Used for accessing array later
 
 #Failure loop
@@ -53,7 +53,7 @@ $Query = @"
 
 $Filtered = Get-WinEvent -FilterXml $Query
 $Success = $filtered | Where-Object { $_.timecreated -gt $Date }
-$S_count = ($Success | measure).count
+$S_count = ($Success | Measure-Object).count
 $S_minus = $S_count -1 #Used for accessing array later
 
 #Success loop
