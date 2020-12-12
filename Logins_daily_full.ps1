@@ -35,8 +35,7 @@ $F_minus = $F_count -1 #Used for accessing array later
 
 #Failure loop
 $i = 0
-while ($i -lt $F_count)
-{
+while ($i -lt $F_count){
     [array]$F_table += $Failure[$i] | Format-Table -AutoSize | Out-String
     $i += 1
 }
