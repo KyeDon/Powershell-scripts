@@ -20,18 +20,19 @@
 # 1.0           11-DEC-2020             Development started
 # *****************************************************
 Function rotate(){
+    Write-Host $args[0]
     $file = $args[0]
-    $dir = Split-Path -Parent $args[0]
-    $date = get-date -uformat "%d/%m/%Y_%H:%M:%S"
-    $newfile = $file + $date + ".ROTATE"
-    Move-Item "$args[0]" "$newfile"
+    $dir = Split-Path -Parent $file
+    $date = get-date -uformat "_%d-%m-%Y_%H-%M-%S"
+    $newfile = "$file" + "$date" + ".ROTATE"
+    Move-Item "$file" "$newfile"
     Get-ChildItem -Path $dir -Filter *.ROTATE | Where-Object {($_.LastWriteTime -lt (Get-Date).AddDays(-90))} | Remove-Item
 }
 
 Function cp_rotate(){
     $file = $args[0]
     $dir = Split-Path -Parent $args[0]
-    $date = get-date -uformat "%d/%m/%Y_%H:%M:%S"
+    $date = get-date -uformat "%d-%m-%Y_%H-%M-%S"
     $newfile = $file + $date + ".CP_ROTATE"
     Copy-Item "$args[0]" "$newfile"
     Clear-Content $args[0]
