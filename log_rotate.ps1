@@ -38,3 +38,10 @@ Function cp_rotate(){
     Clear-Content $args[0]
     Get-ChildItem -Path $dir -Filter *.CP_ROTATE | Where-Object {($_.LastWriteTime -lt (Get-Date).AddDays(-90))} | Remove-Item
 }
+
+# example of rotate function
+rotate 'C:\oracle\admin\WFMSPROD\diag\rdbms\wfmsprodpri\wfmsprod\trace\alert_wfmsprod.log'
+
+# example of cp_rotate function
+# Usually you would have to stop listener logging while you delete/rotate the file but not with this function.
+cp_rotate 'C:\app\administrator\diag\tnslsnr\BR-wmslive\listener\trace\listener.log'
