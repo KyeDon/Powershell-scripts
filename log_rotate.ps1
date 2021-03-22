@@ -17,7 +17,8 @@
 # ****************************************************
 # Version       Date                    Comment
 # *****************************************************
-# 1.0           11-DEC-2020             Development started
+# 1.0           11-DEC-2020             Tested and working
+# 1.1           03-MAR-2021             Fixed bug with cp_rotate by replacing $args[0] with $file
 # *****************************************************
 Function rotate(){
     Write-Host $args[0]
@@ -31,11 +32,11 @@ Function rotate(){
 
 Function cp_rotate(){
     $file = $args[0]
-    $dir = Split-Path -Parent $args[0]
+    $dir = Split-Path -Parent $file
     $date = get-date -uformat "%d-%m-%Y_%H-%M-%S"
     $newfile = $file + $date + ".CP_ROTATE"
-    Copy-Item "$args[0]" "$newfile"
-    Clear-Content $args[0]
+    Copy-Item "$file" "$newfile"
+    Clear-Content $file
     Get-ChildItem -Path $dir -Filter *.CP_ROTATE | Where-Object {($_.LastWriteTime -lt (Get-Date).AddDays(-90))} | Remove-Item
 }
 
