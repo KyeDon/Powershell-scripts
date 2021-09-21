@@ -1,6 +1,9 @@
 <#
 Written by Kye Donaldson 2021-09-21
 Version: 1.0
+
+****THIS SCRIPT ONLY WORKS ON SERVER 2016/WINDOWS 10 OR LATER DUE TO THE Set-ScheduledTask CMDLET****
+
 Updates all task scheduler tasks that run as the specified user.
 This script is designed to run interactively as you will need to pass your credentials to Get-Credential securely/manually.
 
