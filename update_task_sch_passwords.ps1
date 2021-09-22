@@ -17,4 +17,4 @@ $Password = $Credentials.Password
 
 
 $Tasks = schtasks.exe /query /s localhost /V /FO CSV | ConvertFrom-CSV | Where-Object { $_."Run As User" -eq "$Username"}
-foreach ($Task in $Tasks) { Set-ScheduledTask -TaskName $Task.TaskName -User $Username -Password $Password
+foreach ($Task in $Tasks) { Set-ScheduledTask -TaskName $Task.TaskName -User $Username -Password $Password }
