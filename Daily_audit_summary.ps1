@@ -68,7 +68,7 @@ $F_grouped = $F_username | Group-Object -NoElement | Out-String
 
 
 ##Send out email report
-$Subject = "Daily audit summery on $hostname"
+$Subject = "Daily audit summary on $hostname"
 $Body = ""
 $SMTPMessage = New-Object System.Net.Mail.MailMessage($EmailFrom,$EmailTo,$Subject,$Body)
 $SMTPMessage.Body = "Daily login audit on $hostname - `n"
